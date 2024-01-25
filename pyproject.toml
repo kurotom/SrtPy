@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "srtpy"
-version = "0.1.0"
+version = "0.1.1"
 description = "Inspection tool, punctuation correction and SRT file format, focused on the Spanish language."
 authors = ["kurotom <55354389+kurotom@users.noreply.github.com>"]
 license = "GPL-3.0-or-later"
