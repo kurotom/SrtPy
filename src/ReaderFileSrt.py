@@ -13,7 +13,7 @@ from typing import Union, List
 from src.ErrorClass import ErrorData
 from src.DialogScript import Dialog
 from src.CheckerSrtFormat import CheckerSrt
-from src.ClearDialog import ClearDialog
+from src.CorrectorTool import Corrector
 
 
 class ReaderSrt(object):
@@ -36,7 +36,7 @@ class ReaderSrt(object):
 
         self.path = path
         self.current = 0
-        self.cleaner_dialog = ClearDialog()
+        self.corrector = Corrector()
 
     def process(self) -> List[Dialog]:
         """
@@ -95,7 +95,12 @@ class ReaderSrt(object):
                     if CheckerSrt.validate_timestamp(time_list):
                         self.current = self.getIndex(i, data)
 
+# TODO:
+                        # Cambiar lista por string separados por `\n`.
                         lineDialogs = self.getLines(i + 1, data)
+                        #
+# TODO:
+
                         #
                         # Dialog object
                         #
@@ -106,7 +111,7 @@ class ReaderSrt(object):
                                     )
                             dialogOBJ.setPosition(self.getIndex(i, data))
 
-                            res_lines = self.cleaner_dialog.clear(
+                            res_lines = self.corrector.clear(
                                             list_lines=lineDialogs
                                         )
                             # print(res_lines)
@@ -209,6 +214,7 @@ class ReaderSrt(object):
         """
         Returns list of strings of dialog lines from the SRT file.
         """
+        # Cambiar lista por un string unidos por `\n`.
         list_dialog = []
         for i in range(current_index, len(data)):
             if data[i].strip() != "":

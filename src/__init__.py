@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""
+"""
 
 from src.ReaderFileSrt import ReaderSrt
 from src.WriterFileSrt import WriterSrt

@@ -7,9 +7,18 @@ from typing import List
 import re
 
 
-class ClearDialog:
+class Corrector:
+    """
+    Corrects punctuation errors, dialog text alignment.
+    """
 
-    def clear(self, list_lines: List[str]) -> list:
+    def clear(
+        self,
+        list_lines: List[str]
+    ) -> list:
+        """
+        Main, routes the workflow according to the type of subtitle format.
+        """
         list_cleared = []
         for line in list_lines:
             if line.startswith('<font'):
@@ -19,7 +28,7 @@ class ClearDialog:
             else:
                 new_line = self.reformat_wo_tag(line_dialog=line)
             new_line = self.clear_space_puntuation(line_dialog=new_line)
-            new_line = self.fix_puntuation(line_dialog=new_line)
+            new_line = self.fix_exclamation_marks(line_dialog=new_line)
             list_cleared.append(new_line)
         return list_cleared
 
@@ -28,6 +37,7 @@ class ClearDialog:
         line_dialog: str
     ) -> str:
         """
+        Corrects formatting to subtitles beginning with `{\anX}`.
         """
         matches = re.search(r'(-\s*.*?[\.|\!|\?]?)\s*-\s*(.*)', line_dialog)
         if matches is not None:
@@ -43,7 +53,7 @@ class ClearDialog:
         line_dialog: str
     ) -> str:
         """
-        With tags on line.
+        Corrects the formatting of subtitles that use `<tag></tag>` formatting.
         """
         matches = re.search(r'(\-( )?.*?(?<=<))', line_dialog)
         if matches is not None:
@@ -75,6 +85,7 @@ class ClearDialog:
         line_dialog: str
     ) -> str:
         """
+        Remove unnecessary spaces between exclamation and question marks.
         """
         line_dialog = line_dialog.replace('¡ ', '¡')
         line_dialog = line_dialog.replace(' !', '!')
@@ -82,11 +93,12 @@ class ClearDialog:
         line_dialog = line_dialog.replace(' ?', '?')
         return line_dialog
 
-    def fix_puntuation(
+    def fix_exclamation_marks(
         self,
         line_dialog: str
     ) -> str:
         """
+        Corrects exclamation errors.
         """
         res = []
         matches = re.search(r'((i|I)?\w+.*[\!]$)', line_dialog, re.DOTALL)
