@@ -23,7 +23,7 @@ class WriterFileSrtTestCase(PyConcatSRTTestCase):
         for i in range(5):
             time = f'0{r_n()}:{r_n()}{r_n()}:0{r_n()},{r_n()}{r_n()}{r_n()}'
             dialog = Dialog(time_start=time, time_end=time)
-            dialog.setDialogs(['hi\n', 'bye\n'])
+            dialog.setDialog('hi\nbye\n')
             r.append(dialog)
         return r
 

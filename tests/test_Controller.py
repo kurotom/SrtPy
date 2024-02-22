@@ -34,7 +34,7 @@ class ControllerTestCase(PyConcatSRTTestCase):
     def test_Controller_convertData_empty(self):
         control = self.getControl_attr
         r = control.convertData('')
-        self.assertEqual(r, None)
+        self.assertEqual(r, '')
 
     def test_Controller_writeData(self):
         control = self.getControl_attr

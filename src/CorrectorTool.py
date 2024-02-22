@@ -15,7 +15,7 @@ class Corrector:
     def clear(
         self,
         list_lines: List[str]
-    ) -> list:
+    ) -> str:
         """
         Main, routes the workflow according to the type of subtitle format.
         """
@@ -29,8 +29,10 @@ class Corrector:
                 new_line = self.reformat_wo_tag(line_dialog=line)
             new_line = self.clear_space_puntuation(line_dialog=new_line)
             new_line = self.fix_exclamation_marks(line_dialog=new_line)
+
             list_cleared.append(new_line)
-        return list_cleared
+        line = '\n'.join(list_cleared)
+        return line
 
     def reformat_tag_bracket(
         self,

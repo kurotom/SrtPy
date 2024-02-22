@@ -10,27 +10,34 @@ class WriterSrt(object):
     Class to convert and write data in SRT format.
     """
 
-    def write(self, filename: str = None, data: str = None):
+    def write(
+        self,
+        filename: str = None,
+        data: str = None
+    ) -> None:
         """
-        Write data.
+        Write data into SRT file.
         """
         with open(filename, 'w') as file:
-            file.write(data)
+            file.writelines(data)
 
-    def convertData(self, data: list) -> str:
+    def convertData(
+        self,
+        data: list
+    ) -> str:
         """
         Converts data from a list of object Dialog to SRT format.
         """
         if data != []:
-            indx = 1
             string_script = ""
-            for objLine in data:
+            for i in range(len(data)):
+                objDialog = data[i]
                 string_script += "{0}\n{1}\n{2}\n\n".format(
-                    indx,
-                    self.__format_timestamp(objLine),
-                    self.__get_lines(objLine)
+                    i + 1,
+                    self.__format_timestamp(objDialog),
+                    objDialog.dialog
                 )
-                indx += 1
+                # print(string_script)
             return string_script
         else:
             return ''
@@ -40,9 +47,3 @@ class WriterSrt(object):
         Formats start and end timestamps.
         """
         return "{0} --> {1}".format(item.time_start, item.time_end)
-
-    def __get_lines(self, item) -> str:
-        """
-        Formats dialogs lines.
-        """
-        return '\n'.join(item.dialog)

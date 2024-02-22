@@ -13,28 +13,43 @@ dialog = NewType('Dialog', object)
 
 
 class Dialog(object):
-    def __init__(self, time_start: str, time_end: str):
+
+    def __init__(
+        self,
+        time_start: str,
+        time_end: str
+    ) -> None:
         self.line = -1
         self.time_start = time_start
         self.time_end = time_end
         self.dialog = []
 
-    def setPosition(self, line: List[int]) -> None:
+    def setPosition(
+        self,
+        line: List[int]
+    ) -> None:
         if line > 0:
             self.line = line
 
-    def setDialogs(self, list_dialog: List[str]) -> None:
-        if list_dialog != []:
-            self.dialog = list_dialog
+    def setDialog(
+        self,
+        line_dialog: str
+    ) -> None:
+        if line_dialog != '':
+            self.dialog = line_dialog
 
-    def getTimestamps(self) -> Dict[datetime.timestamp, datetime.timestamp]:
+    def getTimestamps(
+        self
+    ) -> Dict[datetime.timestamp, datetime.timestamp]:
         t = self.getDatetimes()
         return {
             'start': t['start'].timestamp(),
             'end': t['end'].timestamp()
         }
 
-    def getDatetimes(self) -> Dict[datetime, datetime]:
+    def getDatetimes(
+        self
+    ) -> Dict[datetime, datetime]:
         return {
                 'start': datetime.strptime(
                             self.time_start, '%H:%M:%S,%f'
@@ -77,9 +92,9 @@ class Dialog(object):
             return self
 
     def __str__(self) -> str:
-        return "{0} - {1}, {2} => {3}".format(
+        return "<[{0} - {1}, {2} => {3}...]>".format(
                 self.line,
                 self.time_start,
                 self.time_end,
-                ' '.join(self.dialog)[:10]
+                self.dialog[:10]
             )

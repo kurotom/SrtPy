@@ -95,14 +95,16 @@ class ReaderSrt(object):
                     if CheckerSrt.validate_timestamp(time_list):
                         self.current = self.getIndex(i, data)
 
+#######################################################
 # TODO:
                         # Cambiar lista por string separados por `\n`.
                         lineDialogs = self.getLines(i + 1, data)
                         #
 # TODO:
+#######################################################
 
                         #
-                        # Dialog object
+                        # Dialog object - START
                         #
                         if lineDialogs != []:
                             dialogOBJ = Dialog(
@@ -114,13 +116,14 @@ class ReaderSrt(object):
                             res_lines = self.corrector.clear(
                                             list_lines=lineDialogs
                                         )
-                            # print(res_lines)
 
-                            dialogOBJ.setDialogs(list_dialog=res_lines)
+                            dialogOBJ.setDialog(line_dialog=res_lines)
+
+                            # print(dialogOBJ)
 
                             list_dialogsOBJ.append(dialogOBJ)
                         #
-                        # Dialog object
+                        # Dialog object - END
                         #
                         else:
                             self.errorData.registerIndex(
@@ -210,6 +213,8 @@ class ReaderSrt(object):
         else:
             return -1
 
+#######################################################
+# TODO
     def getLines(self, current_index, data: list) -> list:
         """
         Returns list of strings of dialog lines from the SRT file.
@@ -222,6 +227,7 @@ class ReaderSrt(object):
             else:
                 break
         return list_dialog
+#######################################################
 
     def get_timestamps(self, line) -> Union[list, None]:
         """

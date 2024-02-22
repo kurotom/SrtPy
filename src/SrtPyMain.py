@@ -21,6 +21,8 @@ class SrtPy(object):
         Constructor
         """
         self.path = None
+        self.filename = None
+        self.is_dir = False
         self.errors_data = []
         self.writer = WriterSrt()
         self.errorData = ErrorData()
@@ -33,6 +35,9 @@ class SrtPy(object):
         Sends `path` to ReaderSrt and returns the processed data sorted by
         start time.
         """
+        self.path = path
+        if self.is_dir is False:
+            self.filename = 'Generated_%s' % (os.path.basename(self.path))
         if path is not None:
             try:
                 reader = ReaderSrt(path, self.errorData)
@@ -47,9 +52,12 @@ class SrtPy(object):
     ) -> list:
         """
         """
+        self.is_dir = True
         path_dir = os.path.abspath(path=directory_path)
+        self.path = path_dir
         try:
             result_data = []
+            self.filename = 'Generated_.srt'
             for file in os.listdir(path=path_dir):
                 file_path = os.path.join(path_dir, file)
                 # print(os.path.exists(file_path), file_path)
@@ -76,13 +84,15 @@ class SrtPy(object):
 
     def to_write(
         self,
-        filename: str,
+        filename: str = None,
         data: str = None,
         writeLog: bool = False
     ) -> Union[bool, None]:
         """
         Writes "data" if not empty, optionally writes the generated error log.
         """
+        if filename is None:
+            filename = self.filename
         if writeLog:
             self.write_log()
         if data != "" and data is not None:
@@ -108,7 +118,7 @@ class SrtPy(object):
         Converts the list of `Dialog` objects to SRT format and returns it
         in `str`.
         """
-        if data != "":
+        if data != []:
             return self.writer.convertData(data)
         else:
             print('>> The data is empty.\n')
